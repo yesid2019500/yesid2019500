@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The best one</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <style>
+        .doneTask{
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    
+  <div class="container col-sm-8 col-sm-offset-2 text-center">
+    <div id="taskApp">
+        <h1 class="my-5 ">{{nameAPP}}</h1>
+        <form v-on:submit="addTasks">
+            <input type="text" v-model="task.title" class="form-control" placeholder="add tasks">
+            <input type="submit" value="add task" class="btn btn-block btn-warning">
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Done it</th>
+                    <th>Task</th>
+                    <th>Deleite</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="tasks in task">
+                   <td>
+                     <input type="checkbox" v-model="tasks.Done">  
+                   </td>
+                   <td :class="{doneTask: tasks.Done}">
+                       {{tasks.title}}
+                   </td>
+                   <td>
+                       <button v-on:click="delieteTask(tasks)" class="btn btn-success">Eliminar</button>
+                   </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+  </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#taskApp',
+            data:{
+                nameAPP: 'How make many different things',
+                task: [
+                    {title:'task one', Done:true},
+                    {title:'task two', Done:false },
+                    {title:'task three', Done:false}
+                ]
+            },
+            methods:{
+                delieteTask:function (tasks) {
+                    // console.log(this.task.indexOf(tasks))
+                    this.task.splice(this.task.indexOf(tasks), 1)
+
+                },
+                addTasks: function (e) {
+                        e.preventDefault();
+                        console.log(e)
+                        this.task.push({
+                            title: this.task.title,
+                            Done: false   
+                        })  ;
+                        this.task.title ="";
+                }
+            }
+        })
+    </script>
+</body>
+</html>
